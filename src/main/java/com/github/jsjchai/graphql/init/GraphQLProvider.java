@@ -43,6 +43,11 @@ public class GraphQLProvider {
         this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
     }
 
+    /**
+     * 构建GraphQLSchema
+     * @param sdl schema
+     * @return GraphQLSchema
+     */
     private GraphQLSchema buildSchema(String sdl) {
         var typeRegistry = new SchemaParser().parse(sdl);
         RuntimeWiring runtimeWiring = buildWiring();
@@ -50,6 +55,10 @@ public class GraphQLProvider {
         return schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
     }
 
+    /**
+     * 构建
+     * @return RuntimeWiring
+     */
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
