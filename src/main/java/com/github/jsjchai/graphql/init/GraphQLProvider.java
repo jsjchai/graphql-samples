@@ -2,8 +2,10 @@ package com.github.jsjchai.graphql.init;
 
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
+import graphql.schema.DataFetcher;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 
@@ -45,6 +48,7 @@ public class GraphQLProvider {
 
     /**
      * 构建GraphQLSchema
+     *
      * @param sdl schema
      * @return GraphQLSchema
      */
@@ -57,12 +61,21 @@ public class GraphQLProvider {
 
     /**
      * 构建
+     *
      * @return RuntimeWiring
      */
     private RuntimeWiring buildWiring() {
+
+        Map<String, DataFetcher> dataFetchersMap = Maps.newHashMap();
+        dataFetchersMap.put("bookById", graphQLDataFetchers.getBookByIdDataFetcher());
+        dataFetchersMap.put("findAllBooks", graphQLDataFetchers.findAllBooks());
+        dataFetchersMap.put("findAllAuthors", graphQLDataFetchers.findAllAuthorsDataFetcher());
+
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
-                        .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher()))
+                        .dataFetchers(dataFetchersMap))
+                .type(newTypeWiring("Mutation")
+                        .dataFetcher("addBook",e->graphQLDataFetchers.addBook()))
                 .type(newTypeWiring("Book")
                         .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
                 .build();

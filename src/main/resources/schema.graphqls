@@ -1,16 +1,31 @@
 type Query {
-  bookById(id: ID): Book
+    # book
+    bookById(id: ID!): Book
+    findAllBooks:[Book]
+
+    # Author
+    findAllAuthors: [Author]!
 }
 
+type Mutation {
+    addBook(
+        id: String!,
+        name: String!,
+        pageCount: Int!
+    ): Book
+}
+
+
+
 type Book {
-  id: ID
-  name: String
-  pageCount: Int
-  author: Author
+    id: ID
+    name: String
+    pageCount: Int
+    author: Author
 }
 
 type Author {
-  id: ID
-  firstName: String
-  lastName: String
+    id: ID
+    firstName: String
+    lastName: String
 }

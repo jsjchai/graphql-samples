@@ -1,7 +1,9 @@
 package com.github.jsjchai.graphql.init;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import graphql.schema.DataFetcher;
+import graphql.schema.DataFetchingEnvironment;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -28,13 +30,34 @@ public class GraphQLDataFetchers {
 
     public DataFetcher<Map<String, String>> getAuthorDataFetcher() {
         return dataFetchingEnvironment -> {
-            Map<String,String> book = dataFetchingEnvironment.getSource();
+            Map<String, String> book = dataFetchingEnvironment.getSource();
             String authorId = book.get("authorId");
             return AUTHORS
                     .stream()
                     .filter(author -> author.get("id").equals(authorId))
                     .findFirst()
                     .orElse(null);
+        };
+    }
+
+    public DataFetcher<List<Map<String, String>>> findAllAuthorsDataFetcher() {
+        return dataFetchingEnvironment -> AUTHORS;
+    }
+
+    public DataFetcher<List<Map<String, String>>> findAllBooks() {
+        return dataFetchingEnvironment -> BOOKS;
+    }
+
+    public DataFetcher<Map<String, String>> addBook() {
+        return new DataFetcher<Map<String, String>>() {
+            @Override
+            public Map<String, String> get(DataFetchingEnvironment dataFetchingEnvironment) throws Exception {
+                Map<String, Object> map = dataFetchingEnvironment.getArguments();
+                Map<String, String> newMap = Maps.newHashMap();
+                map.forEach((k, v) -> newMap.put(k, (String) v));
+                BOOKS.add(newMap);
+                return newMap;
+            }
         };
     }
 
