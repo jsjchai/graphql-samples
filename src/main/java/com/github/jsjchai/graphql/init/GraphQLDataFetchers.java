@@ -49,17 +49,18 @@ public class GraphQLDataFetchers {
     }
 
     public DataFetcher<Map<String, String>> addBook() {
-        return new DataFetcher<Map<String, String>>() {
-            @Override
-            public Map<String, String> get(DataFetchingEnvironment dataFetchingEnvironment) throws Exception {
-                Map<String, Object> map = dataFetchingEnvironment.getArguments();
-                Map<String, String> newMap = Maps.newHashMap();
-                map.forEach((k, v) -> newMap.put(k, (String) v));
-                BOOKS.add(newMap);
-                return newMap;
-            }
+        BOOKS.add(ImmutableMap.of("id","uuuu"));
+        return dataFetchingEnvironment -> {
+            Map<String, String> book = dataFetchingEnvironment.getSource();
+            String id = book.get("id");
+            return AUTHORS
+                    .stream()
+                    .filter(e -> e.get("id").equals(id))
+                    .findFirst()
+                    .orElse(null);
         };
     }
+
 
     private static final List<Map<String, String>> BOOKS = Arrays.asList(
             ImmutableMap.of("id", "book-1",

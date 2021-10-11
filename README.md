@@ -42,7 +42,7 @@
 ```graphql
 #查询所有的作者
 {
-    findAllAuthors{
+    findAllBooks{
         id
     }
 }
