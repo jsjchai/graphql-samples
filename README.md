@@ -14,6 +14,71 @@
 
 > 在一个 RESTful 架构下，因为后端开发人员定义在各个 URL 的资源上返回的数据，而不是前端开发人员来提出数据需求，使得按需获取数据会非常困难。经常前端需要请求一个资源中所有的信息，即便只需要其中的一部分数据。这个问题被称之为过度获取（overfetching)
 
+## 结构
+### 查询和变更类型
+```graphql
+schema {
+  query: Query
+  mutation: Mutation
+}
+```
+### 标量类型
+* Int：有符号 32 位整数
+* Float：有符号双精度浮点值
+* String：UTF‐8 字符序列
+* Boolean：true 或者 false
+* ID：ID标量类型表示一个唯一标识符
+### 自定义标量类型的方式
+```graphql
+# 自定义一个 Date 类型
+scalar Date
+```
+### 枚举类型
+```graphql
+enum Episode {
+  NEWHOPE
+  EMPIRE
+  JEDI
+}
+```
+
+### 列表和非空
+```graphql
+type Character {
+    name: String!
+    # 非空字符串的数组
+    myField: [String!]
+}
+```
+
+### 接口
+```graphql
+interface Character {
+    id: ID!
+    name: String!
+    friends: [Character]
+    appearsIn: [Episode]!
+}
+
+type Human implements Character {
+    id: ID!
+    name: String!
+    friends: [Character]
+    appearsIn: [Episode]!
+    starships: [Starship]
+    totalCredits: Int
+}
+```
+
+### 输入类型
+```graphql
+# 传递复杂对象,传递一整个对象作为新建对象
+input ReviewInput {
+  stars: Int!
+  commentary: String
+}
+```
+
 ### 创建GraphQL Java服务主要步骤
 
 1. 定义 GraphQL Schema
@@ -77,3 +142,4 @@
 * [Getting started with GraphQL Java and Spring Boot](https://www.graphql-java.com/tutorials/getting-started-with-spring-boot/)
 * [Introduction to GraphQL](https://graphql.github.io/learn/)
 * [why-graphql-advantages-disadvantages-alternatives](https://www.robinwieruch.de/why-graphql-advantages-disadvantages-alternatives)
+* [GraphQL入门](https://graphql.cn/learn/)
