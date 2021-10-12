@@ -21,23 +21,12 @@
         <dependency>
             <groupId>com.graphql-java</groupId>
             <artifactId>graphql-java-spring-boot-starter-webmvc</artifactId>
-            <version>2020-07-12T23-24-35-c6606f6</version>
+            <version>2021-03-29T16-31-33-ae4bd96</version>
         </dependency>
         <dependency>
             <groupId>com.graphql-java</groupId>
             <artifactId>graphql-java</artifactId>
-            <version>2020-11-03T02-03-16-cf89ea3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.16</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>30.0-jre</version>
+            <version>17.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

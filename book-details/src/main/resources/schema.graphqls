@@ -14,10 +14,10 @@ type Query {
 
 type Mutation {
     addBook(
-        id: String!,
+        id: ID!,
         name: String!,
         pageCount: Int!
-    ): Book
+    ): Book!
 }
 
 

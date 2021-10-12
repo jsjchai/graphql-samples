@@ -67,16 +67,16 @@ public class GraphQLProvider {
 
         Map<String, DataFetcher> dataFetchersMap = Maps.newHashMap();
         dataFetchersMap.put("bookById", graphQLDataFetchers.getBookByIdDataFetcher());
-        dataFetchersMap.put("findAllBooks", graphQLDataFetchers.findAllBooks());
+        dataFetchersMap.put("findAllBooks", graphQLDataFetchers.findAllBooksDataFetcher());
         dataFetchersMap.put("findAllAuthors", graphQLDataFetchers.findAllAuthorsDataFetcher());
 
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
                         .dataFetchers(dataFetchersMap))
-                .type(newTypeWiring("Mutation")
-                        .dataFetcher("addBook",e->graphQLDataFetchers.addBook()))
                 .type(newTypeWiring("Book")
                         .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
+                .type("Mutation", typeWiring ->
+                        typeWiring.dataFetcher("addBook", graphQLDataFetchers.addBookDataFetcher()))
                 .build();
     }
 }

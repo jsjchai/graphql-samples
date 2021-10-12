@@ -105,7 +105,7 @@ input ReviewInput {
 ```
 
 ```graphql
-#查询所有的作者
+#查询所有的书籍
 {
     findAllBooks{
         id
