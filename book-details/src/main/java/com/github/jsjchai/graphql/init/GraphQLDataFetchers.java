@@ -1,9 +1,7 @@
 package com.github.jsjchai.graphql.init;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import graphql.schema.DataFetcher;
-import graphql.schema.DataFetchingEnvironment;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -49,13 +47,12 @@ public class GraphQLDataFetchers {
     }
 
     public DataFetcher<Map<String, String>> addBook() {
-        BOOKS.add(ImmutableMap.of("id","uuuu"));
         return dataFetchingEnvironment -> {
-            Map<String, String> book = dataFetchingEnvironment.getSource();
-            String id = book.get("id");
-            return AUTHORS
+            String bookId = dataFetchingEnvironment.getArgument("id");
+            BOOKS.add(ImmutableMap.of("id",bookId));
+            return BOOKS
                     .stream()
-                    .filter(e -> e.get("id").equals(id))
+                    .filter(e -> e.get("id").equals(bookId))
                     .findFirst()
                     .orElse(null);
         };
